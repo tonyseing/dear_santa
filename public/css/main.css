@@ -76,7 +76,7 @@ body {
   background: #8f665a;
 }
 header {
-  background: #78b79b;
+  background: #C21F1F;
   position: relative;
 }
 .main-logo {
@@ -571,3 +571,18 @@ footer {
   background-repeat: no-repeat;
   background-position: center center;
 }
+
+
+/* ------------------ */
+/* custom stuff */
+
+.btn-xlarge {
+    padding: 25px 55px;
+    font-size: 22px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0;
+}
+
+
+/* ------------------ */
