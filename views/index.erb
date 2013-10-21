@@ -109,7 +109,7 @@
 
                       <a href="#home"><h2 style="font-size: 37px;
                       font-family: greatvibes; color: #c21f1f;
-                      display:inline; position: relative; top: 10px;">To Santa With
+                      display:inline; position: relative; top: 10px;">To Santa, With
                       Love &nbsp;<i class="icon-envelope-alt icon-1x"></i></h1></a>
                     </div>
                     <div id="nav" class="pull-right">
@@ -269,7 +269,7 @@
             <!-- =========== PORTFOLIO =========== -->
             <section id="portfolio">
                 <div class="container">
-                    <h1 class="text-center">Our Beautiful Portfolio</h1>
+                    <h1 class="text-center">Santa In the News</h1>
                     <div class="dot-bg"></div>
                     <section id="options" class="clearfix">
                         <a href="#" class="pull-right" id="trigger_portfolio"><i class="icon-reorder"></i></a>
@@ -583,8 +583,9 @@
                 <div class="container">
                     <div class="info-box text-center">
                         <h2>A site-wide Call to Action Section!<br>
-                            Have you fallen in love yet? </h2>
-                        <a href="#" class="btn btn-large btn-success">Purchase Now</a>
+                            </h2>
+                        <a href="#" class="btn btn-large
+                        btn-success">Call To Action</a>
                     </div>
                 </div>
             </section>
@@ -598,24 +599,24 @@
                         <div class="span10 offset1">
                             <h3>Send mail</h3>
 
-                            <form id="cfmailer" action="sendmail.php" method="post">
+                            <form id="cfmailer" action="/write_santa" method="post">
                                 <div class="">
                                     <label for="name">Your name</label>
-                                    <input class="span12" name="name" id="name" value="" type="text">
+                                    <input class="span12" name="message[name]" id="name" value="" type="text">
                                 </div>
                                 <div class="">
                                     <label for="name">Your Email</label>
-                                    <input class="span12" name="email" id="email" value="" type="text">
+                                    <input class="span12" name="message[email]" id="email" value="" type="text">
                                 </div>
                                 <div class="">
                                     <label for="name">Your Mom or
                                     your Dad's Email</label>
-                                    <input class="span12" name="parent_email" id="email" value="" type="text">
+                                    <input class="span12" name="message[parent_email]" id="parent_email" value="" type="text">
                                 </div>
                                 <div class="">
                                     <label for="msg">Your Message</label>
                                     <textarea class="span12"
-                                    name="msg" id="msg" style="height:
+                                    name="message[content]" id="content" style="height:
                                     400px;"></textarea>
                                 </div>
                                 <input class="btn btn-large"

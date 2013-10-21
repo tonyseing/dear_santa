@@ -3,23 +3,27 @@ require 'pry'
 require 'pony'
 require 'yaml'
 require 'pg'
-require 'data_mapper'
+require 'mongoid'
+require 'json'
+
+
 
 configure do
-  set :app_file, __FILE__
-  set :port, ENV['PORT']
+  Mongoid.load!('./config/mongoid.yml', :development)
+
 end
 
-email_settings = YAML.load_file('./config/email.yml')
-db = YAML.load_file('./config/db.yml')
+email_settings = YAML.load_file(File.open "./config/email.yml")
 
 
 class Message
-  include DataMapper::Resource
+  include Mongoid::Document
 
-  property :from_email,   String
-  property :parent_email, String
-  property :content, Text
+  field :firstname, :type => String
+  field :lastname, :type => String
+  field :from_email, :type => String
+  field :parent_email, :type => String
+  field :content, :type => String
 end
 
 
@@ -27,23 +31,32 @@ get '/' do
   erb :index
 end
 
+
 post '/write_santa' do
-  parent_email = params[:parent_email]
-  
-  Pony.mail({
-              :to => params[:parent_email],
-              :via => :smtp,
-              :via_options => {
-                :address        => 'smtp.sendgrid.net',
-                :port           => '25',
+  content_type :json
+  binding.pry
+  message = params[:message]
+  if Message.create!(params[:message])
+    Pony.mail({
+                :from => message[:email],
+                :to => message[:parent_email],
+                :via => :smtp,
+                :via_options => {
+                :address        => email_settings["address"],
+                :port           => email_settings["port"],
                 :user_name      => email_settings["username"],
                 :password       => email_settings["password"],
                 :authentication => :plain, # :plain, :login,
                 # :cram_md5, no auth by default
-                :domain         => "localhost.localdomain" # the
-                # HELO domain provided by the client to the server
+                  :domain         => "ToSantaWithLove.com" ,
+                  :html_body => "<html><h1>hello world</h1></html>",
+                  :body => "Yo, your email client can't read html"
+
               }
             })
+  else
+    throw Exception
+  end
 
-  redirect_to '/'
+  { :status => "ok" }.to_json
 end

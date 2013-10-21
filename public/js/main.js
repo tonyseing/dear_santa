@@ -33,6 +33,7 @@ function getScrollBarDimensions(){
 
     return r;
 }
+
 $(document).ready(function(){
     "use strict";
     // Notes slider
@@ -176,37 +177,25 @@ $(document).ready(function(){
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
     }
-    $('#cfmailer').submit(function() {
-        var a = $(this).find('input[name="name"]').val();
-        var b = $(this).find('input[name="email"]').val();
-        var c = $(this).find('textarea[name="msg"]').val();
-        if (a == "") {
-            alert("Type your name please!");
-            return false;
-        }
-        if (validateEmail(b)) {
-        } else {
-            alert("Type your email correctly please!");
-            return false;
-        }
-        if (c == "") {
-            alert("Type your message please!");
-            return false;
-        }
-        else {
-            $.ajax({
-                type: $(this).attr('method'),
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
-                success: function (data) {
-                    alert(data);
-                }
-            });
+        
 
-            return false;
+    $('#cfmailer').submit(function() {
+      var a = $(this).find('input[name="user[name]"]').val();
+      var b = $(this).find('input[name="user[email]"]').val();
+      var parent = $(this).find('input[name="user[parent_email]"]').val();
+      var c = $(this).find('textarea[name="user[message]"]').val();
+      $.ajax({
+        type: $(this).attr('method'),
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        success: function (data) {
+          alert(data);
         }
+      });
     });
+
 });
+
 $(function(){
 
     var $container = $('#container');
