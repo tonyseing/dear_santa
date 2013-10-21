@@ -34,7 +34,7 @@ end
 
 post '/write_santa' do
   content_type :json
-  binding.pry
+
   message = params[:message]
   if Message.create!(params[:message])
     Pony.mail({
