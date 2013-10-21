@@ -80,8 +80,8 @@ header {
   position: relative;
 }
 .main-logo {
-  margin-top: 100px;
-  margin-bottom: 110px;
+  margin-top: 60px;
+  margin-bottom: 70px;
 }
 .dot-bg {
   padding-top: 40px;
@@ -597,4 +597,16 @@ footer {
 body {
     font-family: helvetica, 'sans-serif';
 }
+
+#home .container {
+    width: 100%;
+    
+}
+
+#home .main-logo {
+    width: 100%;
+    background-color: #ffffff;
+}
+
+
 /* ------------------ */

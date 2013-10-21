@@ -3,4 +3,6 @@ ruby "2.0.0"
 gem 'sinatra'
 gem 'pg'
 gem 'pony'
-gem 'datamapper'
+gem 'mongoid'
+gem 'resque'
+gem 'redis'

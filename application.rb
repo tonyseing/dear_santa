@@ -42,17 +42,19 @@ post '/write_santa' do
                 :to => message[:parent_email],
                 :via => :smtp,
                 :via_options => {
-                :address        => email_settings["address"],
-                :port           => email_settings["port"],
-                :user_name      => email_settings["username"],
-                :password       => email_settings["password"],
-                :authentication => :plain, # :plain, :login,
+                  :address        => email_settings["address"],
+                  :port           => email_settings["port"],
+                  :user_name      => email_settings["username"],
+                  :password       => email_settings["password"],
+                  :authentication => :plain, # :plain, :login,
                 # :cram_md5, no auth by default
                   :domain         => "ToSantaWithLove.com" ,
-                  :html_body => "<html><h1>hello world</h1></html>",
-                  :body => "Yo, your email client can't read html"
+                },
 
-              }
+                :html_body => "<html><h1>hello world</h1></html>",
+                :body => "Yo, your email client can't read html"
+
+              
             })
   else
     throw Exception
