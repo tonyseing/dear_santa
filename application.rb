@@ -1,11 +1,12 @@
 require 'sinatra'
 require 'pry'
+require 'mail'
 require 'pony'
 require 'yaml'
 require 'pg'
 require 'mongoid'
 require 'json'
-
+require 'securerandom'
 
 
 configure do
@@ -17,46 +18,69 @@ email_settings = YAML.load_file(File.open "./config/email.yml")
 
 class Message
   include Mongoid::Document
-  field :firstname, :type => String
-  field :lastname, :type => String
-  field :from_email, :type => String
-  field :parent_email, :type => String
-  field :content, :type => String
-  field :reply, :type => String
+  include Mongoid::Timestamps
+
+  field :firstname
+  field :lastname
+  field :email
+  field :parent_email
+  field :content
+  field :reply
+  field :secret
+
+  has_many :responses
 end
 
+class Response
+  include Mongoid::Document
+  include Mongoid::Timestamps
+
+end
+
+
+def authenticate_parent(id, secret)
+  binding.pry
+  Message.where({:id => id, :secret => secret }).exists?
+end
+
+def random_secret
+  SecureRandom.urlsafe_base64
+end
+
+def mail_parent(message, settings)
+  Pony.mail({
+                :from => "elves@ToSantaWithLove.com",
+                :to => message.parent_email,
+                :via => :smtp,
+                :via_options => {
+                  :address        => settings["address"],
+                  :port           => settings["port"],
+                  :user_name      => settings["username"],
+                  :password       => settings["password"],
+                  :authentication => :plain, # :plain, :login,
+                  # :cram_md5, no auth by default
+                  :domain         => "ToSantaWithLove.com" ,
+                },
+                :subject => "Hello #{message.parent_email}, your child #{message.firstname} wants to correspond with Santa. Do you want to help your child live out his or her dream?",
+                :html_body => erb(:email),
+                :body => "Yo, your email client can't read html."
+                
+              })
+end
 
 get '/' do
   erb :index
 end
 
 
+
+
 post '/santa/write' do
   content_type :json
-
-  message = params[:message]
-  message.token = 
-  if message.save!
-    Pony.mail({
-                :from => "elves@ToSantaWithLove.com",
-                :to => message[:parent_email],
-                :via => :smtp,
-                :via_options => {
-                  :address        => email_settings["address"],
-                  :port           => email_settings["port"],
-                  :user_name      => email_settings["username"],
-                  :password       => email_settings["password"],
-                  :authentication => :plain, # :plain, :login,
-                # :cram_md5, no auth by default
-                  :domain         => "ToSantaWithLove.com" ,
-                },
-                :subject => "Hello #{message[:parent_email]}, your child #{message[:firstname]} wants to correspond with Santa. Do you want to help your child live out his or her dream?",
-
-                :html_body => "<html><h1>hello world, go to <a href='http://localhost:9393/santa/reply' ></a></h1></html>",
-                :body => "Yo, your email client can't read html"
-
-              
-            })
+  @message = Message.new(params[:message])
+  @message.secret = random_secret()
+  if @message.save!
+    mail_parent(@message, email_settings)
   else
     throw Exception
   end
@@ -64,10 +88,16 @@ post '/santa/write' do
   { :status => "ok" }.to_json
 end
 
-get '/santa/:id/reply' do
+get '/santa/reply/:id' do
+  unless authenticate_parent(params[:id], params[:secret].to_s)
+    # direct user to an informative page for adults
+    redirect '/santa/adults'
+  end
   erb :reply
 end
 
-post '/santa/:id/reply' do
-  erb :index
+get '/santa/adults' do
+  # stub for adult information page
+  # shoudl be prefaced with
+  "site info for adults"
 end

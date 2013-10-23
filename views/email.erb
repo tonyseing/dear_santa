@@ -1,0 +1,17 @@
+<html>
+  <head>
+    
+  </head>
+  <body>
+         Hi <%= @message.parent_email %>, <br/>
+         <br/>
+         Someone very close to you, <%= @message.firstname %> has just sent a letter to Santa
+         Claus using our
+         service. <a href="http://localhost:9393/santa/reply/<%= @message.id
+         %>?secret=<%= @message.secret %>">Click here</a> to read the letter, and
+         if you'd like, you can write <%= @message.lastname %> back as
+         Santa Claus. 
+  </body>
+  
+  
+</html>

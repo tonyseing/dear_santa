@@ -189,9 +189,16 @@ $(document).ready(function(){
         url: $(this).attr('action'),
         data: $(this).serialize(),
         success: function (data) {
-          alert(data);
+          console.log(data);
+          alert("success!");
+          $(this).find('input[name="user[name]"]').val('');
+          $(this).find('input[name="user[email]"]').val('');
+          $(this).find('input[name="user[parent_email]"]').val('');
+          $(this).find('textarea[name="user[message]"]').val('');
+
         }
       });
+      return false;
     });
 
 });
