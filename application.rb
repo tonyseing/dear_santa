@@ -79,12 +79,14 @@ post '/santa/write' do
   @message = Message.new(params[:message])
   @message.secret = random_secret()
   if @message.save!
-    mail_parent(@message, email_settings)
+    begin
+      mail_parent(@message, email_settings)
+    end
   else
     throw Exception
   end
 
-  { :status => "ok" }.to_json
+  { :id => @message.id, :secret => @message.secret }.to_json
 end
 
 get '/santa/reply/:id' do
