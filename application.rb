@@ -9,6 +9,7 @@ require 'json'
 require 'securerandom'
 
 
+
 configure do
   Mongoid.load!('./config/mongoid.yml', :development)
 end
@@ -39,7 +40,6 @@ end
 
 
 def authenticate_parent(id, secret)
-  binding.pry
   Message.where({:id => id, :secret => secret }).exists?
 end
 
@@ -71,7 +71,6 @@ end
 get '/' do
   erb :index
 end
-
 
 
 
