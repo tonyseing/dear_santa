@@ -18,13 +18,13 @@
         <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="apple-touch-icon-144x144-precomposed.png">
 
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700&amp;subset=latin,cyrillic-ext,greek-ext,vietnamese,latin-ext' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="font/zocial.css">
-        <link rel="stylesheet" href="css/animate.css">
-        <link rel="stylesheet" href="css/fresco.css">
-        <link rel="stylesheet" href="css/bootstrap.css">
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/responsive.css">
+        <link rel="stylesheet" href="/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="/font/zocial.css">
+        <link rel="stylesheet" href="/css/animate.css">
+        <link rel="stylesheet" href="/css/fresco.css">
+        <link rel="stylesheet" href="/css/bootstrap.css">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/responsive.css">
 
         <!--[if lt IE 9]>
             <script src="js/vendor/html5-3.6-respond-1.1.0.min.js"></script>
@@ -360,44 +360,38 @@
                 </div>
             </section>
 
-            <!-- ========== POST-SERVICE BOX ========== -->
-            <section class="post-service inverse parallax">
-                <div class="container">
-                    <div class="info-box text-center">
-                        <h2>A site-wide Call to Action Section!<br>
-                            </h2>
-                        <a href="#" class="btn btn-large
-                        btn-success">Call To Action</a>
-                    </div>
-                </div>
-            </section>
-
             <!-- ========== CONTACT US ========== -->
             <section id="contact">
                 <div class="container">
 
                     <div class="row-fluid">
-                        <div class="span10 offset1">
+                        <div class="span12 offset0">
                             <h3>Send Mail To Santa Claus</h3>
 
                             <form id="cfmailer" action="/santa/write" method="post">
-                                <div class="">
+                                <div class="" style="float: left;
+                                                     width: 48%;
+                                                     margin-right: 4%" >
                                     <label for="name">Your First Name</label>
-                                    <input class="span12" name="message[name]" id="name" value="" type="text">
+                                    <input style="width: 100%;" class="span6" name="message[firstname]" id="name" value="" type="text">
                                 </div>
-                                <div class="">
+                                <div class="" style="float: left;
+                                width: 48%; ">
                                     <label for="name">Your Last Name</label>
-                                    <input class="span12" name="message[name]" id="name" value="" type="text">
+                                    <input style="width: 100%;" class="span6" name="message[lastname]" id="name" value="" type="text">
                                 </div>
 
-                                <div class="">
+                                <div class="" style="float: left;
+                                                     width: 48%;
+                                                     margin-right: 4%">
                                     <label for="name">Your Email Address</label>
-                                    <input class="span12" name="message[email]" id="email" value="" type="text">
+                                    <input style="width: 100%;" style="width: 100%;" class="span12" name="message[email]" id="email" value="" type="text">
                                 </div>
-                                <div class="">
+                                <div class="" style="float: left;
+                                width: 48%;">
                                     <label for="name">Your Mom or
                                     your Dad's Email Address</label>
-                                    <input class="span12" name="message[parent_email]" id="parent_email" value="" type="text">
+                                    <input style="width: 100%;" class="span12" name="message[parent_email]" id="parent_email" value="" type="text">
                                 </div>
                                 <div class="">
                                     <label for="msg">Your Message</label>

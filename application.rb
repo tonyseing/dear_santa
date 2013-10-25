@@ -47,7 +47,7 @@ def random_secret
   SecureRandom.urlsafe_base64
 end
 
-def mail_parent(message, settings)
+def send_email(message, settings)
   Pony.mail({
                 :from => "elves@ToSantaWithLove.com",
                 :to => message.parent_email,
@@ -80,7 +80,8 @@ post '/santa/write' do
   @message.secret = random_secret()
   if @message.save!
     begin
-      mail_parent(@message, email_settings)
+      # emails parent
+      send_email(@message, email_settings)
     end
   else
     throw Exception
@@ -100,5 +101,6 @@ end
 get '/santa/adults' do
   # stub for adult information page
   # shoudl be prefaced with
-  "site info for adults"
+  # to come later
+  "stub - to be site info for adults"
 end
