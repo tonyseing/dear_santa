@@ -24,7 +24,7 @@ describe 'The TSWL app' do
     Sinatra::Application.new
   end
 
-
+1
   describe 'GET /' do
     it "shows front page" do
       get '/'
@@ -52,23 +52,16 @@ describe 'The TSWL app' do
     end
 
     it "directs user to an info page when id or secret are incorrect" do
+      post '/santa/write', params = { :message => test_message }
+      
+      id = JSON.parse(last_response.body)["id"]
+      secret = JSON.parse(last_response.body)["secret"]
+      get "/santa/reply/#{id}?secret=#{secret+'giberrish'}"
+      expect(last_response).to be_redirect   
+      follow_redirect!
+      expect(last_request.url).to include '/santa/adults'
     end
   end
-
-=begin  
-  it "shows a page for adults when secret is correct for a message id" do
-    
-  end
-
-  it "redirects adult to an informational page when secret is not correct for a message id" do
-    get '/santa/write/:id'
-    binding.pry
-    expect(last_response).to be_ok
-    expect(last_response.body).to eq(File.open("views/index.erb").read)
-    response.should redirect_to "/santa/adults"
-  end
-
-=end
   
 end
 
