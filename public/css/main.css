@@ -613,13 +613,13 @@ body {
 
 .inbox {
     width: 50%;
-    height: 400px;
     margin: 10% auto auto auto;
     float: left;
-    color: darkgrey;
+    color: #5D5454;
     font-size: 2em;
     display: block;
     line-height: 55px;
+    
 }
 
 

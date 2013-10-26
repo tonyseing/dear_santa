@@ -43,11 +43,28 @@
   .our_team .member {
     width: 50%;
   }
+  #santa-chip {
+      display: none;
+  }
+  .santalogo {
+      margin-left: auto;
+      margin-right: auto;
+      
+  }
+  .inbox {
+      width: 100%;
+      margin: 0% auto auto auto;
+      color: darkgrey;
+      font-size: 1.2em;
+      display: block;
+
+  }
 }
 @media (max-width: 480px) {
   .sticky {
     display: none;
   }
+  
   .main-logo {
     margin: 10px 0;
   }
@@ -191,6 +208,22 @@
   #navmobile .menu-4 a {
     background: #8f665a;
   }
+  #santa-chip {
+      display: none;
+  }
+  .santalogo {
+      margin-left: auto;
+      margin-right: auto;      
+  }
+  .inbox {
+      width: 100%;
+      margin: 10% auto auto auto;
+      color: #5D5454;
+      font-size: 1.2em;
+      display: block;
+      line-height: 25px;
+  }
+
 }
 @media (max-width: 320px) {
 
