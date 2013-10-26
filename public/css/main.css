@@ -606,6 +606,60 @@ body {
 #home .main-logo {
     width: 100%;
     background-color: #ffffff;
+    float: left;
+    height: 65%;
+    
+}
+
+.inbox {
+    width: 50%;
+    height: 400px;
+    margin: 10% auto auto auto;
+    float: left;
+    color: darkgrey;
+    font-size: 2em;
+    display: block;
+    line-height: 55px;
+}
+
+
+#santa-chip {
+    border-radius: 40px;
+    float: right;
+    display: block;
+    margin-right: 13%;
+    max-width: 100%;
+    min-width: 220px;
+    height: inherit;
+}
+
+.santa-div {
+    float: left;
+    height: 100%;
+    width: 45%;
+}
+
+.top-bar {
+    height: 3%;
+    background-color: #C21F1F;
+    padding: 0 0 0 0;
+    width: 100%;
+    display: block;
+    text-align: left;
+}
+
+.top-bar .icon-envelope {
+    
+}
+
+.santalogo {
+    font-size: 50px;
+    margin: 30px 0  0 30px;
+    font-family: "greatvibes", helvetica;
+    font-weight: normal;
+    position: relative;
+    display: block;
+    
 }
 
 
