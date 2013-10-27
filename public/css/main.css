@@ -673,7 +673,7 @@ blockquote {
     padding: 0.25em 40px;
     line-height: 1.45;
     position: relative;
-
+    border-left: 0px solid #eeeeee;
 }
 
 blockquote:before {
@@ -697,6 +697,8 @@ blockquote cite:before {
     content: "\2014 \2009";
 }
 
+blockquote {
 
+}
 /* ------------------ */
 
