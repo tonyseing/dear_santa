@@ -7,15 +7,21 @@ require 'pg'
 require 'mongoid'
 require 'json'
 require 'securerandom'
-
+require 'sinatra/redis'
 
 
 configure do
   Mongoid.load!('./config/mongoid.yml', :development)
+
+  redis_url = ENV["pub-redis-18819.us-east-1-1.1.ec2.garantiadata.com:18819
+"] # || ENV["OPENREDIS_Upub-redis-18819.us-east-1-1.1.ec2.garantiadata.com:18819"
+  uri = URI.parse(redis_url)
+  Resque.redis = Redis.new(:host => uri.host, :port => uri.port, :password => "eiV5ClQyFg4vTfLm")
+  Resque.redis.namespace = "resque:example"
+  set :redis, redis_url
 end
 
 email_settings = YAML.load_file(File.open "./config/email.yml")
-
 
 class Message
   include Mongoid::Document
