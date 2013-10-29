@@ -193,10 +193,11 @@ $(document).ready(function() {
       data: $(this).serialize(),
       success: function (data) {
         alert("success!");
-        $(this).find('input[name="message[name]"]').val('');
-        $(this).find('input[name="message[email]"]').val('');
-        $(this).find('input[name="message[parent_email]"]').val('');
-        $(this).find('textarea[name="message[content]"]').val('');
+        $('#child_form_mailer').find('input[name="message[firstname]"]').val('');
+        $('#child_form_mailer').find('input[name="message[lastname]"]').val('');
+        $('#child_form_mailer').find('input[name="message[email]"]').val('');
+        $('#child_form_mailer').find('input[name="message[parent_email]"]').val('');
+        $('#child_form_mailer').find('textarea[name="message[content]"]').val('');
       }
     });
     return false;
@@ -209,7 +210,7 @@ $(document).ready(function() {
       data: $(this).serialize(),
       success: function (data) {
         alert("success!");
-        $(this).find('input[name="response[content]"]').val('');
+        $('#child_form_mailer').find('input[name="response[content]"]').val('');
       }
     });
     return false;
