@@ -3,21 +3,19 @@ require 'pry'
 require 'mail'
 require 'pony'
 require 'yaml'
-require 'pg'
 require 'mongoid'
 require 'json'
 require 'securerandom'
-require 'sinatra/redis'
+require 'redis'
+require 'resque'
 
 
 configure do
   Mongoid.load!('./config/mongoid.yml', :development)
 
-  redis_url = ENV["pub-redis-18819.us-east-1-1.1.ec2.garantiadata.com:18819
-"] # || ENV["OPENREDIS_Upub-redis-18819.us-east-1-1.1.ec2.garantiadata.com:18819"
+  redis_url = "redis://pub-redis-18819.us-east-1-1.1.ec2.garantiadata.com:18819"
   uri = URI.parse(redis_url)
   Resque.redis = Redis.new(:host => uri.host, :port => uri.port, :password => "eiV5ClQyFg4vTfLm")
-  Resque.redis.namespace = "resque:example"
   set :redis, redis_url
 end
 
@@ -54,8 +52,14 @@ def random_secret
   SecureRandom.urlsafe_base64
 end
 
-def send_email(message, settings)
-  Pony.mail({
+
+
+
+class EmailJob
+  @queue = :email_serve
+  
+  def self.perform(message, settings)
+    Pony.mail({
                 :from => message[:from],
                 :to => message[:to],
                 :via => :smtp,
@@ -71,8 +75,8 @@ def send_email(message, settings)
                 :subject => message[:subject],
                 :html_body => erb(message[:template]),
                 :body => "Yo, your email client can't read html."
-                
               })
+  end
 end
 
 get '/' do
@@ -90,7 +94,8 @@ post '/santa/write' do
     begin
       # emails parent
       @email = { :from => "elves@ToSantaWithLove.com", :to => @message.email, :subject => "Hello #{@message.parent_email}, your child #{@message.firstname} wants to correspond with Santa. Do you want to help your child live out his or her dream?", :content => @message.content, :params => @message, :template => :email }
-      send_email(@email, email_settings)
+      binding.pry
+      Resque.enqueue(EmailJob, @email, email_settings)
     end
   else
     throw Exception
@@ -123,7 +128,7 @@ post '/santa/reply/:id' do
     begin
       # emails parent
       @email = { :from => "Santa@ToSantaWithLove.com", :to => @message.email, :subject => "placeholder subject", :content => @message.response.content, :params => @message, :template => :reply_email }
-      send_email(@email, email_settings)
+      Resque.enqueue(EmailJob, @email, email_settings)
     end
   else
     throw Exception
