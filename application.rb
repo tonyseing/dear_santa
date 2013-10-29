@@ -61,7 +61,6 @@ class EmailJob
   @queue = :email_jobs
   
   def self.perform(message, settings)
-    binding.pry
     Pony.mail({
                 :from => message["from"],
                 :to => message["to"],
@@ -97,7 +96,7 @@ post '/santa/write' do
       # emails parent
       @email = { :from => "elves@ToSantaWithLove.com", :to => @message.email, :subject => "Hello #{@message.parent_email}, your child #{@message.firstname} wants to correspond with Santa. Do you want to help your child live out his or her dream?", :content => @message.content, :params => @message, :template => :email }
       Resque.enqueue(EmailJob, @email, email_settings)
-  rescue Exception e
+  rescue Exception => e
     puts "Error: #{e}"
   end
 
@@ -129,7 +128,7 @@ post '/santa/reply/:id' do
       # emails parent
     @email = { :from => "elves@ToSantaWithLove.com", :to => @message.email, :subject => "Hello #{@message.parent_email}, your child #{@message.firstname} wants to correspond with Santa. Do you want to help your child live out his or her dream?", :content => @message.content, :params => @message, :template => :email }
     Resque.enqueue(EmailJob, @email, email_settings)
-  rescue Exception e
+  rescue Exception => e
     puts "Error: #{e}"
   end
     
