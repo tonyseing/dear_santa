@@ -1,0 +1,2 @@
+--queue=*
+-R=redis://redis-app18714610:eiV5ClQyFg4vTfLm@pub-redis-18819.us-east-1-1.1.ec2.garantiadata.com:18819
