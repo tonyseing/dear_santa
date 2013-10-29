@@ -24,7 +24,7 @@ email_settings = YAML.load_file(File.open "./config/email.yml")
 class Message
   include Mongoid::Document
   include Mongoid::Timestamps
-
+  
   field :firstname
   field :lastname
   field :email
@@ -51,8 +51,6 @@ end
 def random_secret
   SecureRandom.urlsafe_base64
 end
-
-
 
 
 class EmailJob
@@ -82,8 +80,6 @@ end
 get '/' do
   erb :index
 end
-
-
 
 post '/santa/write' do
   content_type :json
@@ -116,12 +112,12 @@ end
 
 post '/santa/reply/:id' do
   @message = Message.find(params[:id])
-
+  
   unless authenticate_parent(params[:id], @message.secret)
     # direct user to an informative page for adults
     redirect '/santa/adults'
   end
-
+  
   @message.response = params[:response]
 
   if @message.response.save!
@@ -138,9 +134,4 @@ post '/santa/reply/:id' do
 end
 
 
-get '/santa/adults' do
-  # stub for adult information page
-  # shoudl be prefaced with
-  # to come later
-  "stub - to be site info for adults"
-end
+
