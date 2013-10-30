@@ -8,4 +8,6 @@ gem 'redis'
 gem 'pry'
 gem 'rubysl-securerandom'
 gem 'rack-test'
-gem "resque", "~> 2.0.0.pre.1", github: "resque/resque"
+gem "resque", "~> 1.25.1"
+gem 'rake'
+

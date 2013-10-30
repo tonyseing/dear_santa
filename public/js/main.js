@@ -1,4 +1,5 @@
-function getScrollBarDimensions(){
+
+function getScrollBarDimensions() {
   var elm = document.documentElement.offsetHeight ? document.documentElement : document.body,
 
   curX = elm.clientWidth,
@@ -34,8 +35,9 @@ function getScrollBarDimensions(){
   return r;
 }
 
-$(document).ready(function(){
-  "use strict";
+
+$(document).ready(function() {
+ // "use strict";
   // Notes slider
   var e = 1;
   var HH = 0;
@@ -45,9 +47,11 @@ $(document).ready(function(){
       HH = H;
     }
   });
+  
   $(".content-rotator > div").each(function(){
     $(this).height(HH);
   });
+  
   $(".content-rotator").height(HH);
   var c = $(".content-rotator").children().length;
   var f = $(".content-rotator div:nth-child(1)");
@@ -157,16 +161,19 @@ $(document).ready(function(){
     $(this).find('.zoom').removeClass('animated fadeInDown');
     $(this).find('h2').removeClass('animated fadeInDown');
   });
+
   $('.zoom').hover(function(){
     $(this).animate({top: -10},300);
   },function(){
     $(this).animate({top: 0},300);
 
   });
+  
   $(window).load(function(){
     var $container = jQuery('#container');
     $container.isotope('reLayout');
   });
+  
   $(window).bind('orientationchange debouncedresize', function(){
     var $container = jQuery('#container');
     $container.isotope('reLayout');
@@ -180,34 +187,36 @@ $(document).ready(function(){
   
 
   $('#child_form_mailer').submit(function() {
-    
     $.ajax({
       type: $(this).attr('method'),
       url: $(this).attr('action'),
       data: $(this).serialize(),
       success: function (data) {
         alert("success!");
-        $(this).find('input[name="message[name]"]').val('');
-        $(this).find('input[name="message[email]"]').val('');
-        $(this).find('input[name="message[parent_email]"]').val('');
-        $(this).find('textarea[name="message[content]"]').val('');
+        $('#child_form_mailer').find('input[name="message[firstname]"]').val('');
+        $('#child_form_mailer').find('input[name="message[lastname]"]').val('');
+        $('#child_form_mailer').find('input[name="message[email]"]').val('');
+        $('#child_form_mailer').find('input[name="message[parent_email]"]').val('');
+        $('#child_form_mailer').find('textarea[name="message[content]"]').val('');
       }
     });
-
-    $('#adult_form_mailer').submit(function() {
-      $.ajax({
-        type: $(this).attr('method'),
-        url: $(this).attr('action'),
-        data: $(this).serialize(),
-        success: function (data) {
-          alert("success!");
-          $(this).find('input[name="message[content]"]').val('');
-        }
-      });
-      return false;
-    });
-
+    return false;
   });
+  
+  $('#adult_form_mailer').submit(function() {
+    $.ajax({
+      type: $(this).attr('method'),
+      url: $(this).attr('action'),
+      data: $(this).serialize(),
+      success: function (data) {
+        alert("success!");
+        $('#child_form_mailer').find('input[name="response[content]"]').val('');
+      }
+    });
+    return false;
+  });
+
+  
 
   $(function(){
 
@@ -251,6 +260,5 @@ $(document).ready(function(){
 
       return false;
     });
-
-
   });
+});

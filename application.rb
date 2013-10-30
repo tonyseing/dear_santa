@@ -8,6 +8,8 @@ require 'json'
 require 'securerandom'
 require 'redis'
 require 'resque'
+require 'erb'
+
 
 
 configure do
@@ -54,12 +56,12 @@ end
 
 
 class EmailJob
-  @queue = :email_serve
+  @queue = :email_jobs
   
   def self.perform(message, settings)
     Pony.mail({
-                :from => message[:from],
-                :to => message[:to],
+                :from => message["from"],
+                :to => message["to"],
                 :via => :smtp,
                 :via_options => {
                   :address        => settings["address"],
@@ -70,8 +72,8 @@ class EmailJob
                   # :cram_md5, no auth by default
                   :domain         => "ToSantaWithLove.com" 
                 },
-                :subject => message[:subject],
-                :html_body => erb(message[:template]),
+                :subject => message["subject"],
+                :html_body => ERB.new(File.open("views/#{message["template"]}.erb").read).result(binding),
                 :body => "Yo, your email client can't read html."
               })
   end
@@ -85,16 +87,13 @@ post '/santa/write' do
   content_type :json
   @message = Message.new(params[:message])
   @message.secret = random_secret()
-  
-  if @message.save!
-    begin
+  begin
+    @message.save!
       # emails parent
-      @email = { :from => "elves@ToSantaWithLove.com", :to => @message.email, :subject => "Hello #{@message.parent_email}, your child #{@message.firstname} wants to correspond with Santa. Do you want to help your child live out his or her dream?", :content => @message.content, :params => @message, :template => :email }
-      binding.pry
-      Resque.enqueue(EmailJob, @email, email_settings)
-    end
-  else
-    throw Exception
+    @email = { :from => "elves@ToSantaWithLove.com", :to => @message.email, :subject => "Hello #{@message.parent_email}, your child #{@message.firstname} wants to correspond with Santa. Do you want to help your child live out his or her dream?", :content => @message.content, :params => @message, :template => :email }
+    Resque.enqueue(EmailJob, @email, email_settings)
+  rescue Exception => e
+    puts "Error: #{e}"
   end
 
   { :id => @message.id, :secret => @message.secret }.to_json
@@ -120,17 +119,18 @@ post '/santa/reply/:id' do
   
   @message.response = params[:response]
 
-  if @message.response.save!
-    begin
+  begin
+    @message.response.save!
       # emails parent
-      @email = { :from => "Santa@ToSantaWithLove.com", :to => @message.email, :subject => "placeholder subject", :content => @message.response.content, :params => @message, :template => :reply_email }
-      Resque.enqueue(EmailJob, @email, email_settings)
-    end
-  else
-    throw Exception
+    @email = { :from => "elves@ToSantaWithLove.com", :to => @message.email, :subject => "Hello #{@message.parent_email}, your child #{@message.firstname} wants to correspond with Santa. Do you want to help your child live out his or her dream?", :content => @message.content, :params => @message, :template => :email }
+    Resque.enqueue(EmailJob, @email, email_settings)
+  rescue Exception => e
+    puts "Error: #{e}"
   end
+    
+  
 
-  { :id => @message.id, :secret => @message.secret }.to_json
+    { :id => @message.id, :secret => @message.secret }.to_json
 end
 
 
