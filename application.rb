@@ -89,7 +89,7 @@ post '/santa/write' do
   @message.secret = random_secret()
   begin
     @message.save!
-      # emails parent
+    # emails parent
     @email = { :from => "elves@ToSantaWithLove.com", :to => @message.email, :subject => "Hello #{@message.parent_email}, your child #{@message.firstname} wants to correspond with Santa. Do you want to help your child live out his or her dream?", :content => @message.content, :params => @message, :template => :email }
     Resque.enqueue(EmailJob, @email, email_settings)
   rescue Exception => e
@@ -121,16 +121,16 @@ post '/santa/reply/:id' do
 
   begin
     @message.response.save!
-      # emails parent
+    # emails parent
     @email = { :from => "elves@ToSantaWithLove.com", :to => @message.email, :subject => "Hello #{@message.parent_email}, your child #{@message.firstname} wants to correspond with Santa. Do you want to help your child live out his or her dream?", :content => @message.content, :params => @message, :template => :email }
     Resque.enqueue(EmailJob, @email, email_settings)
   rescue Exception => e
     puts "Error: #{e}"
   end
-    
+  
   
 
-    { :id => @message.id, :secret => @message.secret }.to_json
+  { :id => @message.id, :secret => @message.secret }.to_json
 end
 
 
