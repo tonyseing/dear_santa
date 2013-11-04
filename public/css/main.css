@@ -640,7 +640,7 @@ body {
 }
 
 .top-bar {
-    height: 3%;
+    height: 0px;
     background-color: #C21F1F;
     padding: 0 0 0 0;
     width: 100%;
@@ -654,7 +654,7 @@ body {
 
 .santalogo {
     font-size: 40px;
-    margin: 15px 0  15 15px;
+    margin: 1% 0  1% 1.5%;
     font-family: "greatvibes", helvetica;
     font-weight: normal;
     position: relative;
